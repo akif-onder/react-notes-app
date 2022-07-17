@@ -3,32 +3,27 @@ import { useState } from "react";
 import { nanoid } from "nanoid";
 
 function App() {
-  const [notes, setNotes] = useState(
-    [{
-    id: nanoid(),
-    text: "first note",
-    date: "16/07/2022",
-  },
-    {
-    id: nanoid(),
-    text: "second note",
-    date: "16/07/2022",
-  },
-    {
-    id: nanoid(),
-    text: "third note",
-    date: "16/07/2022",
-  },
-    {
-    id: nanoid(),
-    text: "4th note",
-    date: "16/07/2022",
-  },
-]
-  );
+  const [notes, setNotes] = useState([]);
+
+  const addNote = (text) => {
+    const date = new Date();
+    const newNote = {
+      id: nanoid(),
+      text: text,
+      date: date.toLocaleDateString(),
+    };
+    const newNotes = [...notes, newNote];
+    setNotes(newNotes);
+  };
+
+  const deleteNote = (id) => {
+   const newNotes = notes.filter((note)=> note.id !== id);
+   setNotes(newNotes)
+  }
+
   return (
     <div className="container">
-      <NotesList notes={notes} />
+      <NotesList notes={notes} handleAddNote={addNote} handleDeleteNote={deleteNote}/>
     </div>
   );
 }
